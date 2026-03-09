@@ -2,7 +2,7 @@ const routes = [
     {
         file: "GPX/48KM Gravel to Blackbushe CCW.gpx",
         title: "Gravel Ride to Blackbushe CCW",
-        description: "text desciption goes here."
+        description: "48km to Blackbushe CCW - From Peach Place heading off towards Swallowfield, cutting through Wellington country park and Bramshill,down to the Pathfinder cafe at Blackbushe. Heading back to Wokingham taking the single tracks through Yateley and Gorrick Plantation"
     },
     {
         file: "GPX/26KM Easy Gravel ride to 3 lakes.gpx",
@@ -12,12 +12,12 @@ const routes = [
     {
         file: "GPX/60KM Gravel ride to Blackbushe CW.gpx",
         title: "60KM Gravel ride to Blackbushe CW",
-        description: "text desciption goes here."
+        description: "60km to Blackbushe CW - Heading out of Wokingham and down through East berks golf club, along the edge of Wellington college and down to Minley looping round to Blackbushe for coffee at the Pathfinder cafe. Off through Bramshill and Eversley cutting through the tri lakes and heading  back through Simons wood to the start."
     },
     {
         file: "GPX/71KM Gravel ride to Pamber Forest.gpx",
         title: "71KM Gravel ride to Pamber Forest",
-        description: "text desciption goes here."
+        description: "71km Pamber Forest - Heading out towards California country park and  Riseley then following the Roman walls at Silchester before looping round Padworth and heading in to Mortimer for coffee, then along towards Beech hill crossing the A33 and through Swallowfield, Arborfield  and back into Wokingham."
     }
 ];
 
