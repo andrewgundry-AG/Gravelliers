@@ -46,9 +46,9 @@ const routes = [
         description: "48km to Blackbushe CCW - From Peach Place heading off towards Swallowfield, cutting through Wellington country park and Bramshill,down to the Pathfinder cafe at Blackbushe. Heading back to Wokingham taking the single tracks through Yateley and Gorrick Plantation"
     },
     {
-        file: "GPX/50KM Gravel Ride to Sip and Spoke.gpx",
+        file: "GPX/50KM Gravel ride to Sip and Spoke.gpx",
         title: "50KM Gravel Ride to Sip and Spoke",
-        description: "11. 50km to Sip and Spoke - Heading off towards Cabbage Hill and Moss end, up to Holyport and heading past the airfield and onto Littlewick Green up the climb for coffee at Sip and Spoke. The return loop comes back through Knowl Hill and Sherlock Row through the polo club (don’t ride on the cinders track) and back through Billingbear to Wokingham."
+        description: "50km to Sip and Spoke - Heading off towards Cabbage Hill and Moss end, up to Holyport and heading past the airfield and onto Littlewick Green up the climb for coffee at Sip and Spoke. The return loop comes back through Knowl Hill and Sherlock Row through the polo club (don’t ride on the cinders track) and back through Billingbear to Wokingham."
     },
     {
         file: "GPX/50KM Gravel ride to the Stables cafe.gpx",
