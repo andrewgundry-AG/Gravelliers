@@ -16,7 +16,7 @@ const routes = [
         description: "30km to the Ridges - leaving Peach Place and heading down towards  Gorrick plantation, through East Berks golf club and along the Finchampstead ridges, and up to Arborfield for coffee at the Stables, on towards Bearwood lakes and back to the start."
     },
     {
-        file: "GPX/33KM Night Gravel to the Siren Brewery V1.gpx",
+        file: "GPX/33KM Night Gravel to the Siren Brewery V1..gpx",
         title: "33KM Night Gravel to the Siren Brewery",
         description: "33km to the Siren Brewery V1 - Starting at the Two Poplars and out though Gorrick Plantation  and off to Eversley, round Bramshill cutting up Farley hill to the Siren Brewery, back through Barkham, Doles lane to the pub."
     },
@@ -36,7 +36,7 @@ const routes = [
         description: "40km Two rivers loop - Leaving from Cantley Park and heading out to Sindlesham and Shinfield crossing over the M4 through Greenpark and down onto the towpath of the river Kennet, following along through Reading and picking up the Thames path to Sonning,before heading back through Dinton and on to Cantley."
     },
     {
-        file: "GPX/45KM Gravel Ride to Risley Stables Cafe.gpx",
+        file: "GPX/45KM Gravel ride to Risley Stables Cafe.gpx",
         title: "45KM Gravel Ride to Risley, Stables Cafe",
         description: "45km to Risley - leaving Wokingham and off past Bearwood lakes, carrying along to Swallowfield  before climbing Beech hill and round to Risley, Bramshill and up to the Stables cafe at Arborfield , completing the loop back to Peach Place."
     },
