@@ -80,22 +80,22 @@ const routes = [
         file: "GPX/71KM Gravel ride to Pamber Forest.gpx",
         title: "71KM Gravel ride to Pamber Forest",
         description: "71km Pamber Forest - Heading out towards California country park and  Riseley then following the Roman walls at Silchester before looping round Padworth and heading in to Mortimer for coffee, then along towards Beech hill crossing the A33 and through Swallowfield, Arborfield  and back into Wokingham."
-    }
+    },
      {
         file: "GPX/Gravel loop V1.gpx",
         title: "30KM to Waltham St Lawrence",
         description: " "
-    }
+    },
 {
         file: "GPX/Gravel loop V4.gpx",
         title: "34KM to Bramshill",
         description: " "
-    }
+    },
 {
         file: "GPX/Gravel loop V5.gpx",
         title: "28KM to Swinley",
         description: " "
-    }
+    },
 {
         file: "GPX/Gravel loop V6.gpx",
         title: "32KM to the Ridges",
@@ -105,17 +105,17 @@ const routes = [
         file: "GPX/WCC - Day out in the Chilterns To Spire and Spoke for lunch.gpx",
         title: "85KM with 1100M of climbing",
         description: "Great ride and a big day out "
-    }
+    },
 {
         file: "GPX/WCC Cotwolds Gravel Adventurer.gpx",
         title: "30KM to Waltham St Lawrence",
         description: " "
-    }
+    },
 {
         file: "GPX/Gravel to frimley.gpx",
         title: "47KM Gravel to Frimley ",
         description: " "
-    }
+    },
 ];
 
 const container = document.getElementById("routes");
