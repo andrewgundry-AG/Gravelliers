@@ -111,6 +111,11 @@ const routes = [
         title: "30KM to Waltham St Lawrence",
         description: " "
     }
+{
+        file: "GPX/Gravel to frimley.gpx",
+        title: "47KM Gravel to Frimley ",
+        description: " "
+    }
 ];
 
 const container = document.getElementById("routes");
