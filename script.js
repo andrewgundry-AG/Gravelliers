@@ -57,7 +57,7 @@ const routes = [
     },
     {
         file: "GPX/54KM Gravel ride to H_Artisan cafe.gpx",
-        title: "654KM Gravel ride to H_Artisan cafe",
+        title: "54KM Gravel ride to H_Artisan cafe",
         description: "54km to H’Artisan cafe - Leaving Cantley and heading along the byways to towards Holyport before turning towards White Waltham and down Crazies hill stopping at H’Artisan cafe before carrying on to Hare Hatch, the straight mile and Broadcommon lane and back to Cantley."
     },
     {
@@ -103,12 +103,12 @@ const routes = [
     },
     {
         file: "GPX/WCC - Day out in the Chilterns To Spire and Spoke for lunch.gpx",
-        title: "85KM with 1100M of climbing",
+        title: "85KM with 1100M of climbing grand day out",
         description: "Great ride and a big day out "
     },
     {
         file: "GPX/WCC Cotwolds Gravel Adventurer.gpx",
-        title: "30KM to Waltham St Lawrence",
+        title: "Cotwolds Gravel Adventurer",
         description: " "
     },
     {
