@@ -30,7 +30,7 @@ const routes = [
         title: "39KM Gravel ride through Swinley& tri lakes",
         description: "39km Swinley and the tri lakes - Leaving from Peach Place and heading down towards Finchampstead, and taking the trails to the tri lakes and up through Sandhurst,off towards Broadboard and the fire roads of Swinley, coffee at the lookout and back towards Wokingham."
     },
-{
+    {
         file: "GPX/40KM Gravel ride Two rivers loop.gpx",
         title: "40KM Gravel ride Two rivers loop",
         description: "40km Two rivers loop - Leaving from Cantley Park and heading out to Sindlesham and Shinfield crossing over the M4 through Greenpark and down onto the towpath of the river Kennet, following along through Reading and picking up the Thames path to Sonning,before heading back through Dinton and on to Cantley."
@@ -86,32 +86,32 @@ const routes = [
         title: "30KM to Waltham St Lawrence",
         description: " "
     },
-{
+    {
         file: "GPX/Gravel loop V4.gpx",
         title: "34KM to Bramshill",
         description: " "
     },
-{
+    {
         file: "GPX/Gravel loop V5.gpx",
         title: "28KM to Swinley",
         description: " "
     },
-{
+    {
         file: "GPX/Gravel loop V6.gpx",
         title: "32KM to the Ridges",
         description: " "
-    }
-{
+    },
+    {
         file: "GPX/WCC - Day out in the Chilterns To Spire and Spoke for lunch.gpx",
         title: "85KM with 1100M of climbing",
         description: "Great ride and a big day out "
     },
-{
+    {
         file: "GPX/WCC Cotwolds Gravel Adventurer.gpx",
         title: "30KM to Waltham St Lawrence",
         description: " "
     },
-{
+    {
         file: "GPX/Gravel to frimley.gpx",
         title: "47KM Gravel to Frimley ",
         description: " "
