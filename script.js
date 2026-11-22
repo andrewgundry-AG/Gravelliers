@@ -1,5 +1,5 @@
 const routes = [
-    
+
     {
         file: "GPX/26KM Easy Gravel ride to 3 lakes .gpx",
         title: "Gravel Ride to 3 lakes CCW",
@@ -75,7 +75,7 @@ const routes = [
         title: "64KM Gravel ride to Windsor Cinnamon Cafe back via great park.",
         description: "4km Windsor and the Great park - setting off from Peach Place and heading up to Fernygrove farm and taking the byway up to Bray lake and onto the gravel path along the Jubilee river and into Windsor for coffee and a bun at the Cinnamon cafe, leaving Windsor through the Great park and cutting through Ascot race course before taking the trails through Warfield back to Wokingham. "
     },
-    
+
     {
         file: "GPX/71KM Gravel ride to Pamber Forest.gpx",
         title: "71KM Gravel ride to Pamber Forest",
@@ -148,12 +148,250 @@ const routes = [
     },
 ];
 
+/* ------------------------------------------------------------------
+   Settings you can tweak
+------------------------------------------------------------------ */
+
+// Speed shown the first time someone visits (km/h, flat ground)
+const DEFAULT_SPEED = 20;
+
+// How fast climbing is, relative to flat speed: metres climbed per hour
+// for every 1 km/h of flat speed. 40 means a 20 km/h rider climbs at
+// roughly 800 m/hour. Raise it for faster climbing, lower it for slower.
+const CLIMB_FACTOR = 40;
+
+// Remembered in the visitor's browser
+const SPEED_STORAGE_KEY = "gravelliers-speed";
+
+/* ------------------------------------------------------------------
+   Helpers
+------------------------------------------------------------------ */
+
 const container = document.getElementById("routes");
+const speedInput = document.getElementById("speed-input");
+const sortSelect = document.getElementById("sort-select");
+
+function loadSavedSpeed() {
+    try {
+        const saved = parseFloat(localStorage.getItem(SPEED_STORAGE_KEY));
+        if (saved >= 5 && saved <= 60) return saved;
+    } catch (err) { /* storage unavailable, use default */ }
+    return DEFAULT_SPEED;
+}
+
+function saveSpeed(speed) {
+    try { localStorage.setItem(SPEED_STORAGE_KEY, String(speed)); } catch (err) { /* ignore */ }
+}
+
+// Returns the speed typed in, or null if it is not a sensible number
+function getSpeed() {
+    const speed = parseFloat(speedInput.value);
+    return speed >= 5 && speed <= 60 ? speed : null;
+}
+
+function estimateHours(distanceKm, gainM, speed) {
+    return distanceKm / speed + gainM / (speed * CLIMB_FACTOR);
+}
+
+function formatDuration(hours) {
+    // Round to the nearest 5 minutes, which is as precise as an estimate deserves
+    const totalMinutes = Math.max(5, Math.round((hours * 60) / 5) * 5);
+    const h = Math.floor(totalMinutes / 60);
+    const m = totalMinutes % 60;
+    if (h === 0) return m + " min";
+    return h + "h " + String(m).padStart(2, "0") + "m";
+}
+
+function slugify(text) {
+    return text.trim().replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "").toLowerCase() || "route";
+}
+
+function absoluteUrl(path) {
+    return new URL(path, document.baseURI).href;
+}
+
+/* ------------------------------------------------------------------
+   Estimated time and sorting
+------------------------------------------------------------------ */
+
+function updateTimes() {
+    const speed = getSpeed();
+    speedInput.classList.toggle("invalid", speed === null);
+
+    routes.forEach(route => {
+        if (!route.timeEl) return;
+        route.timeEl.textContent = speed === null
+            ? "–"
+            : formatDuration(estimateHours(route.distanceKm, route.gainM, speed));
+    });
+}
+
+function applySort() {
+    const mode = sortSelect.value;
+
+    routes.forEach((route, index) => {
+        let order = index;
+        const loaded = route.distanceKm !== undefined;
+
+        if (mode !== "default") {
+            if (!loaded) {
+                order = 1000000 + index;   // routes still loading go last
+            } else if (mode === "shortest") {
+                order = Math.round(route.distanceKm * 10);
+            } else if (mode === "longest") {
+                order = 100000 - Math.round(route.distanceKm * 10);
+            } else if (mode === "least-climbing") {
+                order = Math.round(route.gainM);
+            } else if (mode === "most-climbing") {
+                order = 100000 - Math.round(route.gainM);
+            }
+        }
+
+        route.card.style.order = order;
+    });
+}
+
+speedInput.value = loadSavedSpeed();
+
+speedInput.addEventListener("input", () => {
+    const speed = getSpeed();
+    if (speed !== null) saveSpeed(speed);
+    updateTimes();
+});
+
+sortSelect.addEventListener("change", applySort);
+
+/* ------------------------------------------------------------------
+   Elevation profile
+------------------------------------------------------------------ */
+
+function buildProfile(gpx, profileDiv) {
+    let data = [];
+    try { data = gpx.get_elevation_data() || []; } catch (err) { data = []; }
+
+    // Keep around 200 points so the drawing stays light
+    const step = Math.max(1, Math.floor(data.length / 200));
+    const points = data
+        .filter((_, i) => i % step === 0 || i === data.length - 1)
+        .map(p => [Number(p[0]), Number(p[1])])
+        .filter(p => isFinite(p[0]) && isFinite(p[1]));
+
+    if (points.length < 2) {
+        profileDiv.style.display = "none";
+        return;
+    }
+
+    const xs = points.map(p => p[0]);
+    const ys = points.map(p => p[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const minY = Math.min(...ys), maxY = Math.max(...ys);
+
+    if (maxX === minX) {
+        profileDiv.style.display = "none";
+        return;
+    }
+
+    const W = 300, H = 60, pad = 4;
+    const rangeY = Math.max(maxY - minY, 10);   // avoid a flat line looking like a mountain
+
+    const coords = points.map(([x, y]) => {
+        const px = ((x - minX) / (maxX - minX)) * W;
+        const py = H - pad - ((y - minY) / rangeY) * (H - pad * 2);
+        return px.toFixed(1) + "," + py.toFixed(1);
+    });
+
+    const line = "M" + coords.join(" L");
+    const area = line + " L" + W + "," + H + " L0," + H + " Z";
+
+    profileDiv.innerHTML = `
+        <svg class="profile-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Elevation profile">
+            <path class="profile-area" d="${area}"></path>
+            <path class="profile-line" d="${line}"></path>
+        </svg>
+        <div class="profile-labels">
+            <span>Low ${Math.round(minY)} m</span>
+            <span>High ${Math.round(maxY)} m</span>
+        </div>
+    `;
+}
+
+/* ------------------------------------------------------------------
+   QR code
+------------------------------------------------------------------ */
+
+function drawQr(canvas, text) {
+    const qr = qrcode(0, "M");   // 0 = pick the smallest size that fits
+    qr.addData(text);
+    qr.make();
+
+    const count = qr.getModuleCount();
+    const cell = 8, margin = 4;
+    const size = (count + margin * 2) * cell;
+
+    canvas.width = size;
+    canvas.height = size;
+
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = "#000000";
+
+    for (let r = 0; r < count; r++) {
+        for (let c = 0; c < count; c++) {
+            if (qr.isDark(r, c)) {
+                ctx.fillRect((c + margin) * cell, (r + margin) * cell, cell, cell);
+            }
+        }
+    }
+}
+
+function setupQr(route, descriptionDiv) {
+    const qrBtn = descriptionDiv.querySelector(".qr-btn");
+    const panel = descriptionDiv.querySelector(".qr-panel");
+    const canvas = descriptionDiv.querySelector(".qr-canvas");
+    const saveBtn = descriptionDiv.querySelector(".qr-download");
+
+    // If the QR library did not load, quietly hide the feature
+    if (typeof qrcode !== "function") {
+        qrBtn.style.display = "none";
+        panel.style.display = "none";
+        return;
+    }
+
+    let drawn = false;
+
+    qrBtn.addEventListener("click", () => {
+        const opening = panel.hidden;
+        panel.hidden = !opening;
+        qrBtn.setAttribute("aria-expanded", String(opening));
+
+        if (opening && !drawn) {
+            try {
+                drawQr(canvas, absoluteUrl(route.file));
+                drawn = true;
+            } catch (err) {
+                panel.innerHTML = "<p>Sorry, a QR code could not be made for this route.</p>";
+            }
+        }
+    });
+
+    saveBtn.addEventListener("click", () => {
+        const link = document.createElement("a");
+        link.download = "qr-" + slugify(route.title) + ".png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    });
+}
+
+/* ------------------------------------------------------------------
+   Build the route cards
+------------------------------------------------------------------ */
 
 routes.forEach((route, index) => {
 
     const card = document.createElement("div");
     card.className = "route-card";
+    route.card = card;
 
     const mapDiv = document.createElement("div");
     mapDiv.className = "map-container";
@@ -166,12 +404,23 @@ routes.forEach((route, index) => {
         <h2>${route.title}</h2>
         <p>${route.description}</p>
         <div class="route-stats" id="stats${index}"></div>
-        <a href="${route.file}" download class="download-btn">Download GPX</a>
+        <div class="elevation-profile" id="profile${index}"></div>
+        <div class="route-actions">
+            <a href="${route.file}" download class="download-btn">Download GPX</a>
+            <button type="button" class="qr-btn" aria-expanded="false">QR code</button>
+        </div>
+        <div class="qr-panel" hidden>
+            <canvas class="qr-canvas" aria-label="QR code for ${route.title.trim()}"></canvas>
+            <p>Scan with your phone to open this route's GPX file</p>
+            <button type="button" class="qr-download">Save QR as PNG</button>
+        </div>
     `;
 
     card.appendChild(mapDiv);
     card.appendChild(descriptionDiv);
     container.appendChild(card);
+
+    setupQr(route, descriptionDiv);
 
     const map = L.map(mapDiv.id, {
         zoomControl: false,
@@ -191,14 +440,25 @@ routes.forEach((route, index) => {
 
         map.fitBounds(e.target.getBounds());
 
-        const distance = (e.target.get_distance() / 1000).toFixed(2);
-        const elevation = e.target.get_elevation_gain().toFixed(0);
-        const time = (e.target.get_total_time() / 3600).toFixed(2);
+        route.distanceKm = e.target.get_distance() / 1000;
+        route.gainM = e.target.get_elevation_gain() || 0;
 
-        document.getElementById("stats" + index).innerHTML = `
-            <div>Distance: ${distance} km</div>
-            <div>Elevation Gain: ${elevation} m</div>
-            <div>Estimated Time: ${time} hrs</div>
+        const statsEl = document.getElementById("stats" + index);
+        statsEl.innerHTML = `
+            <div>Distance: ${route.distanceKm.toFixed(1)} km</div>
+            <div>Elevation Gain: ${route.gainM.toFixed(0)} m</div>
+            <div>Estimated Time: <span class="est-time">–</span></div>
         `;
+        route.timeEl = statsEl.querySelector(".est-time");
+
+        buildProfile(e.target, document.getElementById("profile" + index));
+
+        updateTimes();
+        applySort();
+    }).on('error', function() {
+        document.getElementById("stats" + index).innerHTML =
+            "<div>Route details could not be loaded</div>";
     }).addTo(map);
 });
+
+updateTimes();
