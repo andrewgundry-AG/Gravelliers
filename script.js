@@ -138,7 +138,7 @@ const routes = [
     },
      {
         file: "GPX/100KM to Nettlebed G2.gpx",
-        title: "100KM to Nettlebad G2 ",
+        title: "100KM to Nettlebed G2 ",
         description: " "
     },
     {
