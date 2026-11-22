@@ -116,6 +116,36 @@ const routes = [
         title: "47KM Gravel to Frimley ",
         description: " "
     },
+    {
+        file: "GPX/47KM to Honesty Cafe Tally Ho.gpx",
+        title: "47KM to Honesty Cafe Tally Ho ",
+        description: "Good Winter ride "
+    },
+    {
+        file: "GPX/65KM to Aldermarston.gpx",
+        title: "65KM to Aldermarston ",
+        description: "Great in the summer to sit outside, the cafe is not very big for winter use"
+    },
+    {
+        file: "GPX/75KM to Basingstoke Canal and Blackwater Valley.gpx",
+        title: "75KM to Basingstoke Canal and Blackwater Valley ",
+        description: "Great to ride along the canal and cruise between the locks downhill "
+    },
+    {
+        file: "GPX/85KM Honesty to Honesty Greenham Common.gpx",
+        title: "85KM from the Honesty cafe in Reading to Greenham Common and back ",
+        description: "Double cafe stops, whats not to like "
+    },
+     {
+        file: "GPX/100KM to Nettlebad G2.gpx",
+        title: "100KM to Nettlebad G2 ",
+        description: " "
+    },
+    {
+        file: "GPX/112KM to Watlington G3.gpx",
+        title: "112KM to Watlington G3",
+        description: " "
+    },
 ];
 
 const container = document.getElementById("routes");
