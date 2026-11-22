@@ -117,7 +117,7 @@ const routes = [
         description: " "
     },
     {
-        file: "GPX/47KM to Honesty Cafe Tally Ho.gpx",
+        file: "GPX/47KM to Honesty Cafe Tally HO.gpx",
         title: "47KM to Honesty Cafe Tally Ho ",
         description: "Good Winter ride "
     },
