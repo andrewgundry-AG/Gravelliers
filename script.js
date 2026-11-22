@@ -137,7 +137,7 @@ const routes = [
         description: "Double cafe stops, whats not to like "
     },
      {
-        file: "GPX/100KM to Nettlebad G2.gpx",
+        file: "GPX/100KM to Nettlebed G2.gpx",
         title: "100KM to Nettlebad G2 ",
         description: " "
     },
